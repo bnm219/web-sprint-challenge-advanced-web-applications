@@ -1,19 +1,28 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import PrivateRoute from './components/PrivateRoute'
+import BubblePage from './components/BubblePage';
+
 
 import Login from "./components/Login";
 import "./styles.scss";
 
 function App() {
+  const logout = () => {
+    localStorage.removeItem('token');
+  };
+
   return (
     <Router>
       <div className="App">
         <header>
           Color Picker Sprint Challenge
-          <a data-testid="logoutButton" href="#">logout</a>
+          <Link data-testid="logoutButton" href="#" onClick={logout}>logout</Link>
         </header> 
-
-        <Route exact path="/" component={Login} />
+        <Switch>
+          <PrivateRoute exact path="/protected" component={BubblePage} />
+          <Route exact path="/" component={Login} />
+        </Switch>
       </div>
     </Router>
   );
@@ -22,5 +31,5 @@ function App() {
 export default App;
 
 //Task List:
-//1. Render BubblePage as a PrivateRoute
-//2. Build the logout button to remove the localStorage Item.
+//1. Render BubblePage as a PrivateRoute X
+//2. Build the logout button to remove the localStorage Item. X
